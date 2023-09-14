@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODE MEMORIZE</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<style>
+html, body{
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  width: 100%;
+  padding: 20px;
+}
+
+tr {
+  padding: 0;
+}
+
+td {
+  padding: 0;
+  text-align: center;
+  vertical-align: top;
+}
+
+.calculate_btn, .reset_btn {
+  margin: 0;
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0055ff;
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.code_input {
+  margin: 0;
+  width: 98%;
+  height: 800px;
+}
+
+.result_txt {
+  margin-left: 5px;
+  text-align: left;
+}
+</style>
+<body>
+  <table>
+    <tr>
+      <td style="width: 65%;"><button id="calculate" class="calculate_btn">CHECK</button></td>
+      <td style="width: 35%;"><button id="reset" class="reset_btn">RESET</button></td>
+    </tr>
+    <tr>
+      <td>
+        <textarea id="code" class="code_input">
+<!-- CODE INPUT AREA START -->
+
+
+
+<!-- CODE INPUT AREA END -->
+        </textarea>
+      </td>
+      <td>
+          <p id="result" class="result_txt"></p>
+      </td>
+    </tr>
+  </table>
+</body>
+<script>
+var code = document.getElementById('code');
+var calculate = document.getElementById('calculate');
+var reset = document.getElementById('reset');
+var result = document.getElementById('result');
+
+const mission = {
+    "things to check": "hint for the check",
+	"things to check2": "hint for the check2",
+	"things to check3": "hint for the check3"
+}
+
+calculate.onclick = function(){
+    result.innerHTML = "";
+    var lines = code.value.split("\n");
+    var pureCode = "";
+    for(var i=0; i<lines.length; i++){
+        if(lines[i].includes("//")){
+            comment = lines[i].split("//");
+            thisLine = comment[0];
+        } else{
+          thisLine = lines[i];
+        }
+        thisLine.replace("  ", " ");
+        thisLine.replace("   ", " ");
+        pureCode += thisLine + "\n";
+    }
+
+    count = 0;
+    for(let x in mission){
+        if(!pureCode.includes(x)){
+			count++;
+			result.innerHTML += count + ".&emsp;" + mission[x] + "<br>";
+        }
+    }
+
+    if(count == 0){
+        result.innerHTML = "There are no errors."
+    }
+}
+
+reset.onclick = function(){
+    location.reload();
+}
+
+window.onload = function(){
+  result.innerHTML = "Press CHECK";
+}
+</script>
+</html>
